@@ -1,0 +1,67 @@
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    background-color: #ffa4a4;
+    margin: 0;
+    padding: 20px;
+}
+
+h1, h2 {
+    color: #8A5082;
+    font-size: 40px;
+    text-shadow: 1px -1px white;
+}
+
+form {
+    margin-bottom: 20px;
+}
+
+input[type="text"] {
+    padding: 8px;
+    width: 200px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+button {
+    padding: 8px 12px;
+    background-color: #6F5F90;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #5b4e76;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+    width: 50%;
+    margin: auto;
+}
+
+li {
+    background: #bee9f2;
+    margin: 5px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.completed {
+    text-decoration: line-through;
+    color: grey;
+}
+
+.pixelify-sans-head {
+    font-family: "Pixelify Sans", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 300;
+    font-style: normal;
+}
