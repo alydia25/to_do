@@ -1,0 +1,18 @@
+{% load static %}
+<meta name="viewport" content="width=device-width, initial-scale=1" /> <!-- so it looks good on a phone -->
+<link rel="stylesheet" type="text/css" href="{% static 'style.css' %}"/>
+<head>
+    <meta charset="UTF-8">
+    <title>AgileQ</title>
+</head>
+<br>
+
+<span style="text-align: center">
+    <h1>Agile Question System</h1>
+    <h2>Login</h2>
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Login</button>
+  </form>
+</span>

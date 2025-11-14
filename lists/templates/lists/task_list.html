@@ -1,0 +1,125 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>To-Do List</title>
+    <link id ="theme" rel='stylesheet' type = 'text/css' href="{% static 'lists/cotton-candy.css' %}">
+    <!--This script is for the theme switching-->
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const themeSelect = document.getElementById("theme-select");
+            const themeLink = document.getElementById("theme");
+
+            // Theme file paths
+            const themePaths = {
+                "cotton-candy": themeSelect.getAttribute("data-cotton-candy"),
+                "autumn": themeSelect.getAttribute("data-autumn"),
+                "swamp": themeSelect.getAttribute("data-swamp"),
+                "sunflower": themeSelect.getAttribute("data-sunflower"),
+
+            };
+
+            // Load saved theme from localStorage
+            const savedTheme = localStorage.getItem("theme") || "cotton-candy";
+            themeLink.href = themePaths[savedTheme];
+            themeSelect.value = savedTheme;
+
+            // Change theme on selection
+            themeSelect.addEventListener("change", function () {
+                const selectedTheme = themeSelect.value;
+                themeLink.href = themePaths[selectedTheme];
+
+                // Save selection to localStorage
+                localStorage.setItem("theme", selectedTheme);
+            });
+        });
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&display=swap" rel="stylesheet">
+    <style>
+        .pixelify-sans-head {
+        font-family: "Pixelify Sans", sans-serif;
+        font-optical-sizing: auto;
+        font-weight: 400;
+        font-style: normal;
+        }
+        
+    </style>
+</head>
+<body>  
+    <h1 class="pixelify-sans-head">To-Do List</h1>
+
+    <!-- Theme Switcher -->
+    <label class="pixelify-sans-head" for="theme-select">
+        Choose a Theme:
+    </label>
+    <select class="pixelify-sans-head" id="theme-select"
+        data-cotton-candy="{% static 'lists/cotton-candy.css' %}" 
+        data-autumn="{% static 'lists/autumn.css' %}"
+        data-swamp="{% static 'lists/swamp.css' %}"
+        data-sunflower="{% static 'lists/sunflower.css' %}" 
+        >
+        <option value="cotton-candy">Cotton Candy</option>
+        <option value="autumn">Autumn</option>
+        <option value="swamp">Swamp</option>
+        <option value="sunflower">Sunflower</option>
+
+    </select>
+
+    <!--Form to Post-->
+    <form method="POST" action="{% url 'add_task' %}">
+        {% csrf_token %}
+        <input class="pixelify-sans-head" type="text" name="title" placeholder="New task" required>
+        <input class="pixelify-sans-head" type="date" name="due_date">
+        <button class="pixelify-sans-head" type="submit">Add</button>
+    </form>
+
+    <!--Sorting Dropdown-->
+    <label class="pixelify-sans-head" for="sort-select">Sort by:</label>
+    <select class="pixelify-sans-head" id="sort-select" onchange="sortTasks()">
+        <option value="date_created" {% if sort_by == "date_created" %}selected{% endif %}>Created</option>
+        <option value="name" {% if sort_by == "name" %}selected{% endif %}>Name (A-Z)</option>
+        <option value="date_due" {% if sort_by == "date_due" %}selected{% endif %}>Due Date</option>
+    </select>
+
+    <!--List of Items-->
+    <ul>
+        {% for task in tasks %}
+        <li class="pixelify-sans-head">
+            <a href="{% url 'toggle_task' task.id %}">
+                <span class="{% if task.completed %}completed{% endif %}">
+                    {{ task.title }}
+                    {% if task.due_date %}
+                    <small> (Due: {{ task.due_date }})</small>
+                    {% endif %}
+                </span>
+            </a>
+            {% if task.completed_at %}
+                <small>(Completed: {{ task.completed_at }})</small>
+            {% endif %}
+            <a href="{% url 'delete_task' task.id %}">delete</a>
+        </li>
+        {% endfor %}
+    </ul>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const sortSelect = document.getElementById("sort-select");
+    
+            // Restore saved sorting from localStorage
+            const savedSort = localStorage.getItem("sort_by");
+            if (savedSort) {
+                sortSelect.value = savedSort;
+            }
+    
+            // Update sorting on change
+            sortSelect.addEventListener("change", function() {
+                const selectedSort = sortSelect.value;
+                localStorage.setItem("sort_by", selectedSort);
+                window.location.href = "?sort=" + selectedSort;
+            });
+        });
+    </script>
+
+</html> 

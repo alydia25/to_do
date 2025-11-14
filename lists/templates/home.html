@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+{% load static %}
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<html lang="en">
+<style>
+    nav {
+        margin-top: 8px;
+        padding: 12px;
+        background-color: #008080;
+        border-radius: 20px;
+    }
+    h1, h2, h3 {
+        margin-left: 8px;
+    }
+    {% comment %}
+    Create a class id to use for menu hyperlinks
+    {% endcomment %}
+    #menu_link a:link, #menu_link a:visited {
+        color: orange;
+        text-decoration: none;
+    }
+</style>
+<head>
+    <meta charset="UTF-8">
+    <title> {{ title }}</title>
+    <nav>
+        <span id="menu_link">
+            <a href="#" title="link1">Link | </a>
+            <a href="#" title="link2">Link2 | </a>
+            <a href="#" title="link3">Link3 | </a>
+            <a href="{% url 'do_logout' %}?next=/">Log out</a>
+        </span>
+    </nav>
+    <h1> {{ h1 }}</h1>
+    {% if home_session_message %}
+        {{ home_session_message }}
+    {% endif %}
+
+</head>
+
+<body>
+
+    {% block content %}
+
+    {% endblock content %}
+
+</body>
+</html>
